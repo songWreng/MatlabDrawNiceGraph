@@ -1,2 +1,2 @@
 # MatlabDrawNiceGraph
-draw more beautiful graphics by using Matlab
+draw more beautiful graphics by using Matlabs
