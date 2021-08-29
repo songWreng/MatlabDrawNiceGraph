@@ -10,6 +10,7 @@ function [xarrow, yarrow] = DrawAxisWithArrow(h_axi, varargin)
 %               XLabel x轴的标签(在箭头上方)
 %               YLabel y轴的标签(在箭头右方)
 %               Olabel 原点的标签(两坐标轴交点的左下角)
+%               XyVisible 可选值为x,y,xy(默认), 表示可视化的轴
 %               若结构体未包含某项成员，则使用默认值               
 %
 % Output: xarrow x坐标轴对象
@@ -20,6 +21,7 @@ n = length(varargin);
 if n == 0
     arrow_color = [0.7, 0.62, 1]; % arrow 的默认颜色
     head_width = 6; % 箭头的默认大小
+    xy_visible = 'xy'; % 显示x轴和y轴
     xlabel_str = ''; % x 轴的标签
     ylabel_str = ''; % y 轴的标签
     olabel_str = ''; % x 轴与y轴交点的标签
@@ -54,6 +56,12 @@ elseif n == 1
     else
         olabel_str = '';
     end
+    % 显示的坐标轴
+    if isfield(varargin{1}, 'XyVisible')
+        xy_visible = varargin{1}.XyVisible;
+    else
+        xy_visible = 'xy';
+    end
 else
     error('DrawAxisWithArrow: 输入参数太多');
 end
@@ -85,15 +93,19 @@ axis_rec = get(h_axi, 'Position'); % axis在fig的坐标(x,y,w,h)
 % 获得fig句柄
 h_fig = get(h_axi, 'Parent');
 % 绘制 x 坐标轴
-xarrow_x = [axis_rec(1)-0.05*axis_rec(3), axis_rec(1)+1.05*axis_rec(3)];
-xarrow_y = [op(2), op(2)];
-xarrow = annotation(h_fig, 'arrow', xarrow_x, xarrow_y);
-set(xarrow, 'HeadStyle', 'plain', 'HeadWidth', head_width, 'Color', arrow_color);
+if find('x'==xy_visible)
+    xarrow_x = [axis_rec(1)-0.05*axis_rec(3), axis_rec(1)+1.05*axis_rec(3)];
+    xarrow_y = [op(2), op(2)];
+    xarrow = annotation(h_fig, 'arrow', xarrow_x, xarrow_y);
+    set(xarrow, 'HeadStyle', 'plain', 'HeadWidth', head_width, 'Color', arrow_color);
+end
 % 绘制 y 坐标轴
-yarrow_x = [op(1), op(1)];
-yarrow_y = [axis_rec(2)-0.05*axis_rec(4), axis_rec(2)+1.05*axis_rec(4)];
-yarrow = annotation(h_fig, 'arrow', yarrow_x, yarrow_y);
-set(yarrow, 'HeadStyle', 'plain', 'HeadWidth', head_width, 'Color', arrow_color);
+if find('y'==xy_visible)
+    yarrow_x = [op(1), op(1)];
+    yarrow_y = [axis_rec(2)-0.05*axis_rec(4), axis_rec(2)+1.05*axis_rec(4)];
+    yarrow = annotation(h_fig, 'arrow', yarrow_x, yarrow_y);
+    set(yarrow, 'HeadStyle', 'plain', 'HeadWidth', head_width, 'Color', arrow_color);
+end
 % 关闭默认的坐标轴
 set(h_axi, 'Visible', 'off');
 

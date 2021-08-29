@@ -5,6 +5,9 @@
 
 - [MatlabDrawNiceGraph](#matlabdrawnicegraph)
   - [创建带箭头的坐标系](#创建带箭头的坐标系)
+  - [在坐标轴上绘制线段、单箭头和双箭头](#在坐标轴上绘制线段单箭头和双箭头)
+
+---
 
 ## 创建带箭头的坐标系
 
@@ -40,3 +43,18 @@ DrawAxisWithArrow(gca, param);
 ```
 
 `demo02.py` 是测试在多坐标轴下的运行结果；`demo03.m` 相对前面两个demo实现起来代码稍微冗长繁琐一些（这是一个理想低通滤波器的单位阶跃响应）。
+
+---
+
+## 在坐标轴上绘制线段、单箭头和双箭头
+
+**实现如下效果**
+
+同样是调用 `annotation` + `CoorFromAxis2Fig`（图窗和坐标轴的坐标转换）来实现，比较简单。为方便调用封装成一个 API：`DrawLine`。 
+
+运行 `demo04.m` 输出结果如下图所示。有关[直线](https://ww2.mathworks.cn/help/matlab/ref/matlab.graphics.shape.arrow-properties.html)和[箭头](https://ww2.mathworks.cn/help/matlab/ref/matlab.graphics.shape.arrow-properties.html)的属性可上官网查看。
+
+<div align="center">
+  <img src="figures/demo04.png" style="zoom:50%;" />
+</div>
+
